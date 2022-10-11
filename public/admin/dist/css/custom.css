@@ -1,0 +1,30 @@
+.table-responsive{
+    min-height: 100px !important;
+}
+
+.select2-container .select2-selection--single,
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+    height: 100% !important;
+}
+
+
+.fa_icons i {
+    width: 20px;
+}
+
+.ajaxTableLoader, .ajaxDataLoader{
+    width: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
+
+.table-btn-actions{
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
