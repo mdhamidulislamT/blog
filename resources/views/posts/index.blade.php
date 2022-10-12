@@ -44,7 +44,7 @@
                             50,
                             '<a class="btn btn-secondary float-end " href="/posts/' . $post->id . '">Read more</a>',
                         ) !!}
-                        <p>Created By <strong>Test User</strong> {{ (new Carbon\Carbon($post->created_at))->diffForHumans() }}</p>
+                        <p>Created By <strong> {{ $post->user->name;}}</strong> {{ (new Carbon\Carbon($post->created_at))->diffForHumans() }}</p>
                     </div>
                 </div>
             @empty
