@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +22,10 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('home', 'home')->name('home');
-    Route::view('home', 'home')->name('home');
+    
+    Route::resource('/posts', PostController::class);
+    Route::resource('/comments', CommentController::class);
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/showAllPosts', [PostController::class, 'showAllPosts']);
 });
