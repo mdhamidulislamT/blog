@@ -14,8 +14,11 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function showAllPosts()
+    public function showAllPosts() // only Admin can access 
     {
+        if (Auth::user()->role != "admin") {
+            return redirect()->back()->with('danger', "Access Not Allowed!");
+        }
         $allPosts  = Post::where('status', 1)->paginate(6);
         return view('admin.all-posts', compact('allPosts'));
     }

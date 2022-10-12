@@ -35,7 +35,7 @@
                     @endif
                 @endauth
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('posts.index') }}">All Posts</a>
+                    <a class="nav-link" href="{{ route('posts.index') }}"> All Post page </a>
                 </li>
                 </li>
 
