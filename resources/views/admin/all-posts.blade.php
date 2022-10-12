@@ -1,5 +1,5 @@
 @extends('user.layouts.master')
-@section('title', 'Posts')
+@section('title', 'show All Posts')
 
 
 @section('content')
@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col align-self-start mb-3">
-                <h1> All Post page </h1>
+                <h1> All Post page (Admin Page)</h1>
             </div>
             @if (Session::has('danger') || Session::has('success'))
                 <div class="alert alert-{{ Session::has('danger') ? 'danger' : 'success' }} alert-dismissible fade show"
@@ -16,10 +16,9 @@
                 </div>
             @endif
             <div class="col align-self-end mb-3">
-                <a href="{{ route('posts.create') }}" class="btn btn-success float-end"> Add New</a>
+                <button type="button" class="btn btn-success float-end addNewPost"> Add New </button>
             </div>
             <div class="col-md-12 mb-3">
-
                 <form action="{{ route('posts.store') }}" method="post" class="ajaxform_with_reset">
                     @csrf
                     <div class="mb-3">
@@ -35,25 +34,42 @@
 
             </div>
 
-            @forelse ($posts as $post)
-                <div class="col-md-12 shadow p-3 mb-5 bg-body rounded">
-                    <div class="">
-                        <h3>{{ $post->title }}</h3>
-                        {!! Str::words(
-                            $post->post,
-                            50,
-                            '<a class="btn btn-secondary float-end " href="/posts/' . $post->id . '">Read more</a>',
-                        ) !!}
-                        <p>Created By <strong>Test User</strong> {{ (new Carbon\Carbon($post->created_at))->diffForHumans() }}</p>
-                    </div>
+            <div class="col-md-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Post</th>
+                            <th scope="col">Created_at</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($allPosts as $singlePost)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $singlePost->title }}</td>
+                                <td>
+                                    {!! Str::words(
+                                        $singlePost->post,
+                                        20,
+                                        '<a class="btn btn-secondary btn-sm float-end " href="/posts/' . $singlePost->id . '">Read more</a>',
+                                    ) !!}
+                                </td>
+                                <td>{{ $singlePost->created_at }}</td>
+                                <td><a class="btn btn-success float-end mt-2" href="{{ route('posts.hide', $singlePost->id) }}">Hide</a></td>
+                            </tr>
+                        @empty
+                            <h4 class="text-danger"> No Post Available!</h4>
+                        @endforelse
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-start">
+                    {!! $allPosts->links() !!}
                 </div>
-            @empty
-                <h4 class="text-danger"> No Post Available!</h4>
-            @endforelse
-
-            <div class="d-flex justify-content-end">
-                {!! $posts->links() !!}
             </div>
+
         </div>
     </div>
 

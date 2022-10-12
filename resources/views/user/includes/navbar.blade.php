@@ -27,22 +27,32 @@
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
+                @auth
+                    @if (Auth::user()->role == 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.showAllPosts') }}">Admin Panel</a>
+                        </li>
+                    @endif
+                @endauth
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link" href="{{ route('posts.index') }}">All Posts</a>
                 </li>
+                </li>
+
+
             </ul>
 
             <div class="text-center mt-2 mb-3">
 
                 @auth
-                <a class="btn btn-block btn-danger" href="{{ route('logout') }}"
-                onclick="event.preventDefault();
+                    <a class="btn btn-block btn-danger" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
                          document.getElementById('logout-form').submit();">
-                {{ __('Logout') }}
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
+                        {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-block btn-primary"> LogIn </a>
                     <a href="{{ route('register') }}" class="btn btn-block btn-primary"> Register </a>

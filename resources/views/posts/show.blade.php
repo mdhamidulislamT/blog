@@ -23,6 +23,7 @@
             <div class="col-md-12 shadow p-3 mb-5 bg-body rounded">
                 <h3>{{ $post->title }}</h3>
                 <p>{{ $post->post }}</p>
+                <p>Created By <strong>Test User</strong> {{ (new Carbon\Carbon($post->created_at))->diffForHumans() }}</p>
             </div>
             <div class="col-md-12">
                 <form action="{{ route('comments.store') }}" method="POST">

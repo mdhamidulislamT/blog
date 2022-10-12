@@ -4,10 +4,7 @@
 
 @section('content')
     
-
-<h1>Please Login to post</h1>
-
-
+<h1>Welcome to Demo Project</h1>
 
 @endsection
 

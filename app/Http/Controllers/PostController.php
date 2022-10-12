@@ -16,11 +16,8 @@ class PostController extends Controller
 
     public function showAllPosts()
     {
-        $counter['active'] = Post::where('status', 0)->count();
-        $counter['inactive'] = Post::where('status', 0)->count();
-        $brands = Post::select('id', 'title', 'post', 'created_at')->paginate(5);
-        
-        return view('admin.posts.all-posts', compact('brands', 'counter'));
+        $allPosts  = Post::where('status', 1)->paginate(6);
+        return view('admin.all-posts', compact('allPosts'));
     }
 
 
@@ -88,6 +85,23 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function hidePost($id)
+    {
+            $post  = Post::findOrFail($id);
+            $post->status = 1;
+            $result = $post->save();
+
+            if ($result) {
+                $status = "success";
+                $message = " post hid from post";
+            } else {
+                $status = "danger";
+                $message = "Error! Please try again!";
+            }
+            return redirect()->back()->with($status, $message);
+    }
+
     public function edit($id)
     {
         $post  = Post::findOrFail($id);

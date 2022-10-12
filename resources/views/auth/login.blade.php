@@ -1,103 +1,150 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('user.layouts.master')
+@section('title', 'Login')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Log in (v2)</title>
-    @include('admin.includes.header')
+@push('style')
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
-</head>
+        body {
+            background-color: #2a2c3b;
+            font-family: "Lato", sans-serif;
+        }
 
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center">
-                <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
-            </div>
-            <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
-                @isset($errors)
-                    @if ($error = $errors->first('email'))
-                        <div class="alert alert-danger">
-                            {{ $error }}
-                        </div>
-                    @endif
-                @endisset
+        .login-content {
+            max-width: 450px;
+            width: 100%;
+            height: 550px;
+            z-index: 1;
+            position: absolute;
+            /* top: 50%; */
+            left: 50%;
+            margin-left: -200px;
+            /* margin-top: -286px; */
+            border-radius: 8px;
+            background: #2f3242;
+        }
 
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-                    <div class="input-group mb-3">
-                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" 
-                            required autofocus placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
+        .logo {
+            width: 128px;
+            height: 128px;
+            margin: 5px;
+        }
+
+        .text-logo {
+            text-align: center;
+            font-weight: bold;
+            font-size: 25px;
+            color: white;
+        }
+
+        .form-control {
+            width: 18rem;
+            height: 3rem;
+            left: 65px;
+            position: relative;
+            border-radius: 5px;
+            background-color: #ccffee;
+        }
+
+        .btn {
+            font-size: 22px;
+            background-color: #0278ae;
+            border: none;
+            width: 18rem;
+            height: 3rem;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: blue;
+        }
+
+        .nomember {
+            background-color: #e4dede;
+            padding: 10px;
+            padding-top: 20px;
+            border-radius: 0px 0px 5px 5px;
+            color: white;
+            background: #2f3242;
+        }
+
+        .nomember a {
+            text-decoration: none;
+            color: rgb(158, 163, 240);
+        }
+
+        .forgot {
+            position: relative;
+            right: -20%;
+        }
+
+        .forgot a {
+            text-decoration: none;
+            font-size: 14px;
+            color: rgb(158, 163, 240);
+        }
+
+        .copyright {
+            color: white;
+            padding: 15px;
+        }
+
+        /*support google chrome*/
+        .form-control::-webkit-input-placeholder {
+            color: #00000036;
+        }
+
+        /*support mozilla*/
+        .form-control:-moz-input-placeholder {
+            color: red;
+        }
+
+        /*support internet explorer*/
+        .form-control:-ms-input-placeholder {
+            color: red;
+        }
+    </style>
+@endpush
+
+@section('content')
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card login-content shadow-lg border-0">
+                    <div class="card-body">
+                        
+                        <h3 class="text-logo">Sign In</h3>
+                        <br>
+                        @isset($errors)
+                            @if ($error = $errors->first('email'))
+                                <div class="alert alert-danger">
+                                    {{ $error }}
+                                </div>
+                            @endif
+                        @endisset
+                        <form class="text-center" method="POST" action="{{ route('login') }}">
+                            @csrf
+                            <input class="form-control border-0" type="email" name="email" id="email"
+                                value="{{ old('email') }}" required autofocus placeholder="Email">
+                            <br>
+                            <input class="form-control border-0" type="password" id="password" name="password"
+                                value="admin" required autocomplete="current-password" placeholder="Password">
+                            <br>
+                            <button class="btn btn-primary btn-sm border-0" type="submit" name="submit">Sign In</button>
+                            {{-- <p class="forgot"><a href="">Forgot Password?</a></p> --}}
+                        </form>
                     </div>
-                    <div class="input-group mb-3">
-                        <input id="password" type="password" class="form-control" name="password" 
-                            value="admin"
-                            required
-                            autocomplete="current-password" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
+                    <div class="nomember">
+                        <p class="text-center">Not a member? <a href="{{ url('register') }}">Create an Account</a></p>
                     </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                </form>
-
-                <div class="social-auth-links text-center mt-2 mb-3">
-                    <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a>
-                    <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                    </a>
-                    <a class="btn btn-block btn-danger" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                       document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
                 </div>
-                <!-- /.social-auth-links -->
-
-                <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
-                </p>
-                <p class="mb-0">
-                    <a href="{{ url('register') }}" class="text-center">Register a new membership</a>
-                </p>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
-    <!-- /.login-box -->
 
-    @include('admin.includes.scripts')
 
-</body>
+@endsection
 
-</html>
+@push('javascripts')
+@endpush
