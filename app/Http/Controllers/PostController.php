@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\ResponseService;
 
 class PostController extends Controller
 {
+
+    protected $postService;
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,14 +28,14 @@ class PostController extends Controller
         if (Auth::user()->role != "admin") {
             return redirect()->back()->with('danger', "Access Not Allowed!");
         }
-        $allPosts  = Post::where('status', 1)->paginate(6);
+        $allPosts = $this->postService->getAllPosts();
         return view('admin.all-posts', compact('allPosts'));
     }
 
 
     public function index()
     {
-        $posts  = Post::where('status', 1)->with('comments')->paginate(6);
+        $posts  = $this->postService->getAllPostwithComments();
         return view('posts.index', compact('posts'));
     }
 
@@ -61,13 +70,11 @@ class PostController extends Controller
         $result = $post->save();
 
         if ($result) {
-            $status = "success";
-            $message = "Post Created successfully!";
+            $message = ResponseService::SuccessResponse();
         } else {
-            $status = "danger";
-            $message = "Error! Please try again!";
+            $message = ResponseService::ErrorResponse();
         }
-        return response()->json('Post Created successfully!');
+        return response()->json($message);
     }
 
     /**
@@ -78,7 +85,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post  = Post::findOrFail($id);
+        $post  = $this->postService->getById($id);
         return view('posts.show', compact('post'));
     }
 
@@ -89,20 +96,18 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function hidePost($id)
+    public function postHide($id)
     {
-            $post  = Post::findOrFail($id);
-            $post->status = 1;
-            $result = $post->save();
+        $post  = Post::findOrFail($id);
+        $post->status = 1;
+        $result = $post->save();
 
-            if ($result) {
-                $status = "success";
-                $message = " post hid from post";
-            } else {
-                $status = "danger";
-                $message = "Error! Please try again!";
-            }
-            return redirect()->back()->with($status, $message);
+        if ($result) {
+            $message = ResponseService::SuccessResponse();
+        } else {
+            $message = ResponseService::ErrorResponse();
+        }
+        return redirect()->back()->with(ResponseService::getStatus(), $message);
     }
 
     public function edit($id)
@@ -132,14 +137,11 @@ class PostController extends Controller
         $result = $post->save();
 
         if ($result) {
-            $status = "success";
-            $message = "Post Updated successfully!";
+            $message = ResponseService::SuccessResponse();
         } else {
-            $status = "danger";
-            $message = "Error! Please try again!";
+            $message = ResponseService::ErrorResponse();
         }
-        return response()->json('Post Updated successfully!');
-        //return redirect()->route('posts.index')->with($status, $message);
+        return response()->json($message);
     }
 
     /**

@@ -48,7 +48,7 @@
                     <tbody>
                         @forelse ($allPosts as $singlePost)
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
+                                <th scope="row">{{ $singlePost->id }}</th>
                                 <td>{{ $singlePost->title }}</td>
                                 <td>
                                     {!! Str::words(
