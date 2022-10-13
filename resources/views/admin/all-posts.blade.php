@@ -35,23 +35,7 @@
             </div>
 
             <div class="col-md-12 table-responsive">
-
-
-                {{-- <form id="search_form" action="{{ url('admin/products') }}" method="get">
-                    <div class="input-group m-0" style="width: 150px;">
-                        <input type="text" name="search_query" class="form-control float-right" placeholder="Search">
-                        <input type="hidden" name="deleted" value="{{ request()->get('deleted') }}"
-                            class="form-control float-right" placeholder="Search">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form> --}}
-
-
-
+                
                 <ul class="pagination">
                     <form action="{{ route('admin.showAllPosts') }}" method="GET">
                         <input type="hidden" name="month" value="{{ $monthYear['month'] }}">
@@ -78,8 +62,6 @@
                         </li>
                     </form>
                 </ul>
-
-
 
                 <table class="table table-striped">
                     <thead>
