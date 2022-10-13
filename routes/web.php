@@ -27,6 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/posts', PostController::class);
     Route::resource('/comments', CommentController::class);
 
+    //Route::get('/showAllPosts', [PostController::class, 'showAllPosts'])->name('admin.showAllPosts');
+    //Route::get('/showAllPosts/{month?}/{year?}/{action?}', [PostController::class, 'showAllPosts'])->name('admin.showAllPosts');
     Route::get('/showAllPosts', [PostController::class, 'showAllPosts'])->name('admin.showAllPosts');
+
+
     Route::get('/hide-post/{id}', [PostController::class, 'postHide'])->name('posts.hide');
 });

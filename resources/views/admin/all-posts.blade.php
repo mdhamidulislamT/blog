@@ -35,7 +35,52 @@
             </div>
 
             <div class="col-md-12 table-responsive">
-                <h1>  All Posts </h1>
+
+
+                {{-- <form id="search_form" action="{{ url('admin/products') }}" method="get">
+                    <div class="input-group m-0" style="width: 150px;">
+                        <input type="text" name="search_query" class="form-control float-right" placeholder="Search">
+                        <input type="hidden" name="deleted" value="{{ request()->get('deleted') }}"
+                            class="form-control float-right" placeholder="Search">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form> --}}
+
+
+
+                <ul class="pagination">
+                    <form action="{{ route('admin.showAllPosts') }}" method="GET">
+                        <input type="hidden" name="month" value="{{ $monthYear['month'] }}">
+                        <input type="hidden" name="year" value="{{ $monthYear['year'] }}">
+                        <input type="hidden" name="action" value="Previous">
+                        <li class="page-item">
+                            <button class="page-link" aria-label="Previous" type="submit">
+                                <span aria-hidden="true" class="fs-2">&laquo;</span>
+                            </button>
+                        </li>
+                    </form>
+                    @php
+                        $monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July ', 'August', 'September', 'October', 'November', 'December'];
+                    @endphp
+                    <li class="page-item"><a class="page-link fs-2" href="#"> {{ $monthArray[($monthYear['month']-1)] }} </a></li>
+                    <form action="{{ route('admin.showAllPosts') }}" method="GET">
+                        <input type="hidden" name="month" value="{{ $monthYear['month'] }}">
+                        <input type="hidden" name="year" value="{{ $monthYear['year'] }}">
+                        <input type="hidden" name="action" value="Next">
+                        <li class="page-item">
+                            <button class="page-link" aria-label="Next" type="submit">
+                                <span aria-hidden="true" class="fs-2">&raquo;</span>
+                            </button>
+                        </li>
+                    </form>
+                </ul>
+
+
+
                 <table class="table table-striped">
                     <thead>
                         <tr>

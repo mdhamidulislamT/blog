@@ -23,13 +23,24 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function showAllPosts() // only Admin can access 
+    public function showAllPosts(Request $request) // only Admin can access 
     {
         if (Auth::user()->role != "admin") {
             return redirect()->back()->with('danger', "Access Not Allowed!");
         }
-        $allPosts = $this->postService->getAllPosts();
-        return view('admin.all-posts', compact('allPosts'));
+        $action = '';
+        $month = date('m');
+        $year = date('Y');
+
+        if ($request->has('action')) {
+            $action = $request->action;
+            $month = $request->month;
+        }
+
+        $allPosts = $this->postService->getAllPosts($month, $year, $action);
+        $monthYear['month'] = $this->postService->month;
+        $monthYear['year'] = $this->postService->year;
+        return view('admin.all-posts', compact('allPosts', 'monthYear'));
     }
 
 
@@ -63,7 +74,7 @@ class PostController extends Controller
         ]);
 
         $result  = $this->postService->savePost($validatedData);
-        
+
         if ($result) {
             $data = ResponseService::SuccessResponse();
         } else {

@@ -8,9 +8,30 @@ use Illuminate\Support\Facades\Auth;
 class PostService
 {
     protected $data;
-    public function getAllPosts()
+    public $month;
+    public $year;
+    public function getAllPosts($month, $year, $action)
     {
-        return Post::where('status', 1)->paginate(6);
+        //return Post::where('status', 1)->paginate(6);
+
+
+        if ($action) {
+            if ($action === "Previous") {
+                $this->month = $month <= 1 ? 12 : ($month - 1);
+                $this->year = $this->month == 12 ? ($year-1) : $year;
+            } else {
+                $this->month = $month >= 12 ? 1 : ($month + 1);
+                $this->year = $this->month == 1 ? ($year+1) : $year;
+            } 
+        } else {
+            $this->month = $month;
+            $this->year = $year;
+        }
+
+        return Post::whereMonth('created_at', $this->month)
+            ->whereYear('created_at', $this->year)
+            ->where('status', 1)
+            ->paginate(6);
     }
 
     public function getAllPostwithComments()
@@ -26,10 +47,7 @@ class PostService
     public function savePost($requestData)
     {
         $requestData['user_id'] = Auth::user()->id;;
-        
+
         return Post::create($requestData);
     }
-
-
-
 }
