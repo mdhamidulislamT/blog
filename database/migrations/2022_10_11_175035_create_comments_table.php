@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('comment');
             $table->unsignedBigInteger('user_id');
-            $table->enum('status', [1, 0])->default(0);
+            $table->enum('status', [1, 0])->default(1);
             $table->timestamps();
         });
     }

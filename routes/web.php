@@ -28,5 +28,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/comments', CommentController::class);
 
     Route::get('/showAllPosts', [PostController::class, 'showAllPosts'])->name('admin.showAllPosts');
-    Route::get('/hide-post{id}', [PostController::class, 'postHide'])->name('posts.hide');
+    Route::get('/hide-post/{id}', [PostController::class, 'postHide'])->name('posts.hide');
 });

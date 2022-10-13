@@ -123,7 +123,6 @@
                 $(".ajaxform_with_reset").trigger("reset");
             },
             error: function (xhr, status, error) {
-                console.log( error);
                 $(".ajaxbtn").html(ajaxbtnhtml);
                 $(".ajaxbtn").removeAttr("disabled");
                 $(".errorarea").show();

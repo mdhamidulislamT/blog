@@ -81,7 +81,7 @@ class CommentController extends Controller
     public function edit($id)
     {
             $comment  = Comment::findOrFail($id);
-            $comment->status = 1;
+            $comment->status = '0';
             $result = $comment->save();
 
             if ($result) {

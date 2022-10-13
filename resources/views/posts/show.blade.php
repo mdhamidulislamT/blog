@@ -23,7 +23,6 @@
             <div class="col-md-12 shadow p-3 mb-5 bg-body rounded">
                 <h3>{{ $post->title }}</h3>
                 <p>{{ $post->post }}</p>
-                <p>Created By <strong>Test User</strong> {{ (new Carbon\Carbon($post->created_at))->diffForHumans() }}</p>
             </div>
             <div class="col-md-12">
                 <form action="{{ route('comments.store') }}" method="POST">
@@ -42,32 +41,43 @@
                     </div>
                 </form>
             </div>
-
-            <div class="row">
-                @if ($post->comments)
-                    @foreach ($post->comments as $comment)
-                        @if ($comment->status == 0)
-                            <div class="col-md-11">
-                                <p class="fw-normal">
-                                    <span class="mb-4 fw-bold">{{ $comment->name }}</span>
-                                    <br>
-                                    <span class="my-4">{{ date('M-d-y', strtotime($comment->created_at)) }} </span>
-                                    <br>
-                                    <span>{{ $comment->comment }} </span>
-                                </p>
-                            </div>
-                            @if (Auth::id() == $post->user_id || Auth::user()->role == 'admin')
-                                <div class="col-md-1">
-                                    <a class="btn btn-success float-end mt-2"
-                                        href="{{ route('comments.edit', $comment->id) }}">Hide</a>
-                                </div>
-                            @endif
-                        @endif
-                    @endforeach
-                @endif
-            </div>
-
         </div>
+        <div class="row">
+            @if ($post->comments)
+                @foreach ($post->comments as $comment)
+                    @if ($comment->status == 1)
+                        <div class="col-md-12 shadow p-3 mb-5 bg-body rounded">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <p class="fw-normal">
+                                        <span class="mb-4 fw-bold">{{ $comment->name }}</span>
+                                        <br>
+                                        <span class="my-4">{{ date('M-d-y', strtotime($comment->created_at)) }} </span>
+                                        <br>
+                                        <span>{{ $comment->comment }} </span>
+
+                                    <p>
+                                        Created By <strong>{{ $comment->user->name }} </strong>
+                                        {{ (new Carbon\Carbon($comment->created_at))->diffForHumans() }}</p>
+                                    </p>
+                                </div>
+                                <div class="col-md-1">
+                                    @if (Auth::id() == $post->user_id || Auth::user()->role == 'admin')
+                                        <a class="btn btn-success float-end mt-2"
+                                            href="{{ route('comments.edit', $comment->id) }}">Hide</a>
+                                    @endif
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    @endif
+                @endforeach
+            @endif
+        </div>
+
+
     </div>
 
 

@@ -57,24 +57,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $this->validate($request, [
+        $validatedData = $this->validate($request, [
             'title' => 'required|string|max:255',
             'post' => 'required|string|max:1000'
         ]);
 
-        $post = new Post();
-
-        $post->title = $request->title;
-        $post->post = $request->post;
-        $post->user_id = Auth::user()->id;
-        $result = $post->save();
-
+        $result  = $this->postService->savePost($validatedData);
+        
         if ($result) {
-            $message = ResponseService::SuccessResponse();
+            $data = ResponseService::SuccessResponse();
         } else {
-            $message = ResponseService::ErrorResponse();
+            $data = ResponseService::ErrorResponse();
         }
-        return response()->json($message);
+        return response()->json($data['message']);
     }
 
     /**
@@ -98,21 +93,21 @@ class PostController extends Controller
 
     public function postHide($id)
     {
-        $post  = Post::findOrFail($id);
-        $post->status = 1;
+        $post  = $this->postService->getById($id);
+        $post->status = '0';
         $result = $post->save();
 
         if ($result) {
-            $message = ResponseService::SuccessResponse();
+            $data = ResponseService::SuccessResponse();
         } else {
-            $message = ResponseService::ErrorResponse();
+            $data = ResponseService::ErrorResponse();
         }
-        return redirect()->back()->with(ResponseService::getStatus(), $message);
+        return redirect()->back()->with($data['status'], $data['message']);
     }
 
     public function edit($id)
     {
-        $post  = Post::findOrFail($id);
+        $post  = $this->postService->getById($id);
         return view('posts.edit', compact('post'));
     }
 
@@ -137,11 +132,11 @@ class PostController extends Controller
         $result = $post->save();
 
         if ($result) {
-            $message = ResponseService::SuccessResponse();
+            $data = ResponseService::SuccessResponse();
         } else {
-            $message = ResponseService::ErrorResponse();
+            $data = ResponseService::ErrorResponse();
         }
-        return response()->json($message);
+        return response()->json($data['message']);
     }
 
     /**

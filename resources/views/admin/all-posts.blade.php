@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col align-self-start mb-3">
-                <h1> All Post page (Admin Page)</h1>
+                <h1> Admin Panel </h1>
             </div>
             @if (Session::has('danger') || Session::has('success'))
                 <div class="alert alert-{{ Session::has('danger') ? 'danger' : 'success' }} alert-dismissible fade show"
@@ -35,6 +35,7 @@
             </div>
 
             <div class="col-md-12 table-responsive">
+                <h1>  All Posts </h1>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -58,7 +59,8 @@
                                     ) !!}
                                 </td>
                                 <td>{{ $singlePost->created_at }}</td>
-                                <td><a class="btn btn-success float-end mt-2" href="{{ route('posts.hide', $singlePost->id) }}">Hide</a></td>
+                                <td><a class="btn btn-success float-end mt-2"
+                                        href="{{ route('posts.hide', $singlePost->id) }}">Hide</a></td>
                             </tr>
                         @empty
                             <h4 class="text-danger"> No Post Available!</h4>

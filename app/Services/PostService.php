@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PostService
 {
-
+    protected $data;
     public function getAllPosts()
     {
         return Post::where('status', 1)->paginate(6);
@@ -22,5 +22,14 @@ class PostService
     {
         return Post::findOrFail($id);
     }
+
+    public function savePost($requestData)
+    {
+        $requestData['user_id'] = Auth::user()->id;;
+        
+        return Post::create($requestData);
+    }
+
+
 
 }
